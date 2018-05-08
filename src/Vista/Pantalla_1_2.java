@@ -45,23 +45,16 @@ public class Pantalla_1_2 extends JDialog{
 	private ArrayList<String> ListaCat;
 	private Controlador_1_2 controlador_12;
 	private JComboBox comboBox;
+	private Pantalla_Inicial pantalla_ini;
+	private int seleccion;
+	private String nomb;
 
 
 	public Pantalla_1_2(ArrayList<String> lista, Pantalla_Inicial pantalla_ini) {
 		super();
 		ListaCat = new ArrayList<String>();
 		ListaCat = lista;
-		
-		addWindowListener(new WindowAdapter() {                //Hay que echarle un ojo a esta mierda
-			
-			public void windowClosed(WindowEvent e) {
-				pantalla_ini.setVisible(true);
-				}
-			
-			   public void windowClosing(WindowEvent e) {
-			     pantalla_ini.setVisible(true);
-			   }
-			 });
+		this.pantalla_ini = pantalla_ini;
 		setPantalla_12();
 	}
 
@@ -72,6 +65,16 @@ public class Pantalla_1_2 extends JDialog{
 	 */
 	public void setPantalla_12() {
 		frame = new JFrame();
+		frame.addWindowListener(new WindowAdapter() {
+			
+			public void windowClosed(WindowEvent e) {
+				pantalla_ini.setVisible(true);
+			}
+
+			public void windowClosing(WindowEvent e) {
+				pantalla_ini.setVisible(true);
+			}
+		});
 		frame.getContentPane().setBackground(new Color(176, 196, 222));
 		frame.setBounds(100, 100, 984, 538);
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,20 +83,17 @@ public class Pantalla_1_2 extends JDialog{
 		
 		
 		JButton btnOk = new JButton("");
+		
+		btnOk.addActionListener(new Escuchador_Ok() {
+				
+		});
+		
 		btnOk.setToolTipText("A\u00F1adir");
 		btnOk.setIcon(new ImageIcon("C:\\Users\\DAW1\\Desktop\\Jhota\\Clases\\Proyectito\\Imagenes\\ok\\mipmap-xhdpi\\ic_launcher.png"));
 		btnOk.setFont(new Font("Verdana", Font.PLAIN, 24));
 		btnOk.setBounds(35, 374, 73, 73);
 		frame.getContentPane().add(btnOk);
-		btnOk.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent arg0) {
-				if(!txtNombre.getText().equals("Producto") && !txtPrecio.getText().equals("Precio") && txtNombreCategoria.getText().equals("Categoria")) {
-				
-				}
-			
-			}
-		});
+
 		
 		
 		
@@ -131,9 +131,8 @@ public class Pantalla_1_2 extends JDialog{
 
 		JButton btnCancelar = new JButton("");
 		btnCancelar.setToolTipText("Eliminar");
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
+		btnCancelar.addActionListener(new Escuchador_Cancelar() {
+				
 		});
 		btnCancelar.setIcon(new ImageIcon("C:\\Users\\DAW1\\Desktop\\Jhota\\Clases\\Proyectito\\Imagenes\\eliminar\\mipmap-xhdpi\\ic_launcher.png"));
 		btnCancelar.setFont(new Font("Verdana", Font.PLAIN, 24));
@@ -178,8 +177,9 @@ public class Pantalla_1_2 extends JDialog{
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int seleccion = table.rowAtPoint(e.getPoint());
+				seleccion = table.rowAtPoint(e.getPoint());
 				Productos p = new Productos(0, null, 0, 0);
+				nomb = String.valueOf(table.getValueAt(seleccion, 1));
 				
 				p = TablaDatos.getRow(seleccion);  					
 				controlador_12.AbrirPantallaEdicion(p);
@@ -218,6 +218,35 @@ public class Pantalla_1_2 extends JDialog{
 					txtNombreCategoria.setVisible(true);
 				}
 			}
+			
+		}
+		
+	}
+	
+	private class Escuchador_Ok implements ActionListener{
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			String newCat = String.valueOf(txtNombreCategoria.getText());
+			String cat = String.valueOf(comboBox.getSelectedItem());
+			String newNomb = txtNombre.getText();
+			double newPre = Double.parseDouble(txtPrecio.getText());
+			
+			if(!cat.equals("Añadir...") && !newNomb.equals(null) && newPre != 0) {
+				controlador_12.AnadirTablaProductos(cat, newNomb, newPre);
+				frame.repaint();
+				table.repaint();
+				
+			}
+			
+		}
+		
+	}
+	
+	private class Escuchador_Cancelar implements ActionListener {
+
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			controlador_12.DeleteTablaProductos(nomb);
 			
 		}
 		

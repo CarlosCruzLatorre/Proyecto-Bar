@@ -40,7 +40,7 @@ public class ConexionBBDD {
 	
 	public ArrayList<Productos> ConsultaTablaProductos(String nombreCat) { //Rellenar la tabla de productos con los productos existentes en el admin
 		ArrayList<Productos> producto = new ArrayList<Productos>();
-		String query = "SELECT * FROM JORGE_GG.producto WHERE COD_CATEGORIA = (SELECT COD_CATEGORIA FROM JORGE_GG.categoria WHERE NOMBRE_CATEGORIA LIKE '"+ nombreCat +"')";
+		String query = "SELECT * FROM JORGE.producto WHERE COD_CATEGORIA = (SELECT COD_CATEGORIA FROM JORGE.categoria WHERE NOMBRE_CATEGORIA LIKE '"+ nombreCat +"') ORDER BY COD_PRODUCTO";
 		//SELECT COD_CATEGORIA, NOMBRE_PRODUCTO, PRECIO FROM PRODUCTO WHERE COD_CATEGORIA = (SELECT COD_CATEGORIA FROM CATEGORIA WHERE NOMBRE_CATEGORIA LIKE 'Cervezas');
 		System.out.println(query);
 		 
@@ -72,7 +72,7 @@ public class ConexionBBDD {
 		double Precio = P.getPrecio();
 		int resultado = 0;
 
-		String query = "INSERT INTO JORGE_GG.categoria (Cod_Categoria, Nombre_Categoria) VALUES ((SELECT MAX(Cod_Categoria)+1 FROM Categoria), 'Snacks');";
+		String query = "INSERT INTO JORGE.categoria (Cod_Categoria, Nombre_Categoria) VALUES ((SELECT MAX(Cod_Categoria)+1 FROM Categoria), 'Snacks');";
 		 //INSERT INTO CATEGORIA (Cod_Categoria, Nombre_Categoria) VALUES ((SELECT MAX(Cod_Categoria)+1 FROM Categoria), 'Snacks');
 		try {
 			Statement stmt = conexion.createStatement();
@@ -89,7 +89,7 @@ public class ConexionBBDD {
 	
 	public ArrayList<String> ConsultaTablaCat(){ //Consultar la tabla de categorias, se usa para hacer un filtro
 		ArrayList<String> lista = new ArrayList<String>();
-		String query = "SELECT * FROM JORGE_GG.categoria";
+		String query = "SELECT * FROM JORGE.categoria";
 		 
 		try {
 			Statement stmt = conexion.createStatement();
@@ -108,7 +108,7 @@ public class ConexionBBDD {
 	
 	public ArrayList<Contiene> ConsultaTablaCont(int mesa){
 		ArrayList<Contiene> lista = new ArrayList<Contiene>();
-		String query = "SELECT C.Cantidad_Producto, C.Total_Producto, C.Cod_Comanda, P.Nombre_Producto FROM JORGE_GG.Contiene C, JORGE_GG.Producto P, JORGE_GG.Comandas Co WHERE Co.Num_Mesa = " +mesa+ " AND Co.Cod_Comanda=C.Cod_Comanda ORDER BY Cod_Comanda";
+		String query = "SELECT C.Cantidad_Producto, C.Total_Producto, C.Cod_Comanda, P.Nombre_Producto FROM JORGE.Contiene C, JORGE.Producto P, JORGE.Comandas Co WHERE Co.Num_Mesa = " +mesa+ " AND Co.Cod_Comanda=C.Cod_Comanda ORDER BY Cod_Comanda";
 		
 		try {
 			Statement stmt = conexion.createStatement();
@@ -132,13 +132,13 @@ public class ConexionBBDD {
 		return lista;
 	}
 	
-	public int ConsultaActualizaProducto(Productos p) {
+	public void ConsultaActualizaProducto(Productos p) {
 		String nombre = p.getNombre();
 		int cod = p.getCod_Producto();
 		double precio = p.getPrecio();
 		int resultado = 0;
 		
-		String query = "UPDATE JORGE_GG.producto SET PRECIO="+precio+", NOMBRE_PRODUCTO='"+nombre+"' WHERE COD_PRODUCTO = "+cod;
+		String query = "UPDATE JORGE.producto SET PRECIO="+precio+", NOMBRE_PRODUCTO='"+nombre+"' WHERE COD_PRODUCTO = "+cod;
 		//UPDATE producto SET PRECIO=2, NOMBRE_PRODUCTO='Coca' WHERE COD_PRODUCTO=1
 		try {
 			Statement stmt = conexion.createStatement();
@@ -149,10 +149,40 @@ public class ConexionBBDD {
 			s.printStackTrace();
 		}
 		
-		return resultado;
+		//return resultado;
 		
 	}
 	
+	
+	public void AnadirProductos(String nombreCat, String nombrePro, Double pre) {
+		
+		String query ="INSERT INTO JORGE.producto (Cod_Producto, Nombre_Producto, Precio, Cod_Categoria) VALUES ((SELECT MAX(Cod_Producto) + 1 FROM JORGE.Producto), '"+nombrePro+"', "+pre+", (SELECT Cod_Categoria FROM JORGE.categoria WHERE NOMBRE_CATEGORIA LIKE '"+nombreCat+"'))";
+		//INSERT INTO Producto (Cod_Producto, Nombre_Producto, Precio, Cod_Categoria) VALUES (5, 'Prueba', 12, (SELECT Cod_Categoria FROM categoria WHERE NOMBRE_CATEGORIA LIKE 'Cervezas'))
+		//SELECT MAX(Cod_Producto) + 1 FROM Producto 
+		int resultado = 0;
+		try {
+			Statement stmt = conexion.createStatement();
+			resultado = stmt.executeUpdate(query);
+			stmt.close();
+			
+		}catch (SQLException s){
+			s.printStackTrace();
+		}
+		
+	}
+	
+	public void DeleteProductos(String nomb) {
+		String query = "DELETE FROM JORGE.producto WHERE NOMBRE_PRODUCTO LIKE '"+nomb+"'";
+		int resultado = 0;
+		try {
+			Statement stmt = conexion.createStatement();
+			resultado = stmt.executeUpdate(query);
+			stmt.close();
+			
+		}catch (SQLException s){
+			s.printStackTrace();
+		}
+	}
 	
 
 }

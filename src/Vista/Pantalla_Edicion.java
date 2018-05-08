@@ -108,7 +108,7 @@ public class Pantalla_Edicion extends JDialog{
 				String newnombre = textField_Pro.getText();
 				Double newprecio =Double.parseDouble(textField_Pre.getText());
 				
-				if(newnombre != null && newprecio != producto.getPrecio()) {
+				if(newnombre != null && newprecio != 0) {
 					producto.setPrecio(newprecio);
 					producto.setNombre(newnombre);
 					Controlador_Edicion control_edi = new Controlador_Edicion(conexion, producto);

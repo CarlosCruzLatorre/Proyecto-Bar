@@ -26,6 +26,18 @@ public class Controlador_1_2 {
 		
 	}
 	
+	public void AnadirTablaProductos(String nombreCat, String nombrePro, Double pre) {
+		conexion.AnadirProductos(nombreCat, nombrePro, pre);
+		
+	}
+	
+	public void DeleteTablaProductos(String nombre) {
+		conexion.DeleteProductos(nombre);
+		
+	}
+	
+	
+	
 
 }
 

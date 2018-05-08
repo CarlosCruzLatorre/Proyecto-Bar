@@ -8,10 +8,22 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+import Controlador.Controlador_2_1;
+import Controlador.Controlador_2_2;
+import Modelo.ConexionBBDD;
+import Modelo.Contiene;
+import Modelo.TMContiene;
+
 import javax.swing.JButton;
 import javax.swing.UIManager;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JScrollPane;
 
 public class Pantalla_2_2 {
@@ -20,30 +32,26 @@ public class Pantalla_2_2 {
 	private JTextField txtCantidad;
 	private JTable table;
 	private JTable table_1;
+	private Pantalla_2_1 pantalla21;
+	private ConexionBBDD conexion;
+	private TMContiene TablaDatos;
+	private Controlador_2_2 controlador22;
+	private int mesa;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Pantalla_2_2 window = new Pantalla_2_2();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the application.
 	 */
-	public Pantalla_2_2() {
+	public Pantalla_2_2(Pantalla_2_1 pantalla21, ConexionBBDD conexion, int mesa) {
+		this.pantalla21 = pantalla21;
+		this.conexion = conexion;
+		this.mesa = mesa;
+		TablaDatos = new TMContiene(controlador22.ActualizarTablaContiene(mesa));
 		initialize();
 	}
 
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -114,5 +122,13 @@ public class Pantalla_2_2 {
 			}
 		));
 		scrollPane.setViewportView(table_1);
+		table_1.setModel(TablaDatos);
+		frame.setVisible(true);
+		
 	}
+	public void setContolador(Controlador_2_2 controlador) {
+		this.controlador22 = controlador;
+	}
+	
+		
 }

@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import Controlador.Controlador_1_2;
 import Controlador.Controlador_2_1;
 import Modelo.Contiene;
+import Modelo.Productos;
 import Modelo.TMContiene;
 import Modelo.TMProductos;
 
@@ -19,6 +20,8 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.UIManager;
@@ -32,7 +35,7 @@ public class Pantalla_2_1 {
 	private JTable table_1;
 	private ArrayList<Contiene> ListaCont;
 	private Controlador_2_1 controlador_21;
-	private JComboBox comboBox;
+	public JComboBox comboBox;
 	private TMContiene TablaDatos;
 
 	/**
@@ -68,10 +71,16 @@ public class Pantalla_2_1 {
 		frame.getContentPane().add(comboBox);
 		
 		JButton btnAadir = new JButton("");
+		btnAadir.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				controlador_21.Abrir22(String.valueOf(comboBox.getSelectedItem()));
+			}
+		});
 		btnAadir.setBounds(69, 111, 73, 73);
 		btnAadir.setToolTipText("A\u00F1adir Comanda");
 		btnAadir.setIcon(new ImageIcon("C:\\Users\\DAW1\\Desktop\\Jhota\\Clases\\Proyectito\\Imagenes\\a\u00F1adir\\mipmap-xhdpi\\ic_launcher.png"));
 		frame.getContentPane().add(btnAadir);
+		
 		
 		JButton btnCancelar = new JButton("");
 		btnCancelar.setBounds(69, 279, 73, 73);
