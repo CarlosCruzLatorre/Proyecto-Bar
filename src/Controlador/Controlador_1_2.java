@@ -36,9 +36,19 @@ public class Controlador_1_2 {
 		
 	}
 	
+	public void AnadirNuevaCat(String nombreCat, String nombrePro, Double pre) {
+		conexion.AnadirCat(nombreCat);
+		conexion.AnadirProductos(nombreCat, nombrePro, pre);
+		
+	}
 	
+	public void AnadirMesa() {
+		conexion.AnadirMesa();
+	}
 	
-
+	public void DeleteCat(String nombre) {
+		conexion.DeleteCat(nombre);
+	}
 }
 
 

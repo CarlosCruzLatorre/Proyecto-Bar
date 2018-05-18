@@ -25,10 +25,11 @@ public class Controlador_Inicial {
 	}
 	
 	public void AbrirBar() {
-		Pantalla_2_1 pantalla_21 = new Pantalla_2_1(conexion.ConsultaTablaCont(0));
+		Pantalla_2_1 pantalla_21 = new Pantalla_2_1(conexion.ConsultaTablaCont(0), pantalla_ini, conexion.RellenaMesa());
 		Controlador_2_1 controlador_21 = new Controlador_2_1(conexion, pantalla_21);
 		
 		pantalla_21.setContolador(controlador_21);
+		pantalla_ini.setVisible(false);
 	}
 	
 

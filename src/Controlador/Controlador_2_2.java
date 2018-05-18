@@ -4,18 +4,15 @@ import java.util.ArrayList;
 
 import Modelo.ConexionBBDD;
 import Modelo.Contiene;
-import Vista.Pantalla_1_2;
-import Vista.Pantalla_2_2;
+import Modelo.Productos;
 
 public class Controlador_2_2 {
 	
 	private ConexionBBDD conexion;
-	private Pantalla_2_2 pantalla22;
-	private String mesa;
+	private int mesa;
 	
-	public Controlador_2_2 (ConexionBBDD conexion, Pantalla_2_2 p, String mesa) {
+	public Controlador_2_2 (ConexionBBDD conexion,int mesa) {
 		this.conexion = conexion;
-		this.pantalla22 = p;
 		this.mesa = mesa;
 	}
 	
@@ -23,6 +20,20 @@ public class Controlador_2_2 {
 		return conexion.ConsultaTablaCont(mesa);
 	}
 	
+	public ArrayList<Productos> ActualizarTablaProductos(String NombreCat){
+		return conexion.ConsultaTablaProductos(NombreCat);
+	}
 	
+	public int Producto(String nombreprod) {
+		return conexion.Producto(nombreprod);
+	}
+	
+	public void AñadirComandas(int nummesa, ArrayList<String> tabla, ArrayList<String> tabla2, ArrayList<String> tabla3) {
+		conexion.NuevaComanda(nummesa, tabla, tabla2, tabla3);
+	}
+	
+	public void DeleteComanda(int num) {
+		
+	}
 
 }

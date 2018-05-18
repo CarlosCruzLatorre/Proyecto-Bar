@@ -1,13 +1,11 @@
 package Vista;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import Controlador.Controlador_1_2;
-import Modelo.ConexionBBDD;
 import Modelo.Productos;
 import Modelo.TMProductos;
 
@@ -16,7 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import java.awt.SystemColor;
 import java.awt.Font;
@@ -26,21 +23,26 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
-import javax.swing.UIManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class Pantalla_1_2 extends JDialog{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JTextField txtNombre;
 	private JTextField txtPrecio;
 	private JTextField txtNombreCategoria;
 	private JTable table;
+	private JScrollPane scrollPane;
 	
-	private ConexionBBDD conexion;
 	private TMProductos TablaDatos;
 	private ArrayList<String> ListaCat;
 	private Controlador_1_2 controlador_12;
@@ -58,11 +60,6 @@ public class Pantalla_1_2 extends JDialog{
 		setPantalla_12();
 	}
 
-
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	public void setPantalla_12() {
 		frame = new JFrame();
 		frame.addWindowListener(new WindowAdapter() {
@@ -88,16 +85,26 @@ public class Pantalla_1_2 extends JDialog{
 				
 		});
 		
-		btnOk.setToolTipText("A\u00F1adir");
-		btnOk.setIcon(new ImageIcon("C:\\Users\\DAW1\\Desktop\\Jhota\\Clases\\Proyectito\\Imagenes\\ok\\mipmap-xhdpi\\ic_launcher.png"));
+		btnOk.setToolTipText("Ok");
+		btnOk.setIcon(new ImageIcon("src//Media//Ok.png"));
 		btnOk.setFont(new Font("Verdana", Font.PLAIN, 24));
-		btnOk.setBounds(35, 374, 73, 73);
+		btnOk.setBounds(24, 374, 73, 73);
 		frame.getContentPane().add(btnOk);
 
 		
 		
 		
 		txtNombre = new JTextField();
+		txtNombre.addFocusListener(new FocusAdapter() {
+			public void focusGained(FocusEvent arg0) {
+				txtNombre.setText("");
+			}
+			public void focusLost(FocusEvent e) {
+				if(txtNombre.getText().equals("")) {
+					txtNombre.setText("Producto");
+				}
+			}
+		});
 		txtNombre.setFont(new Font("Verdana", Font.PLAIN, 24));
 		txtNombre.setText("Producto");
 		txtNombre.setBounds(24, 148, 299, 38);
@@ -109,6 +116,16 @@ public class Pantalla_1_2 extends JDialog{
 		
 		
 		txtPrecio = new JTextField();
+		txtPrecio.addFocusListener(new FocusAdapter() {
+			public void focusGained(FocusEvent arg0) {
+				txtPrecio.setText("");
+			}
+			public void focusLost(FocusEvent e) {
+				if(txtPrecio.getText().equals("")) {
+					txtPrecio.setText("Precio");
+				}
+			}
+		});
 		txtPrecio.setFont(new Font("Verdana", Font.PLAIN, 24));
 		txtPrecio.setText("Precio");
 		txtPrecio.setBounds(24, 224, 299, 38);
@@ -118,6 +135,16 @@ public class Pantalla_1_2 extends JDialog{
 		
 		
 		txtNombreCategoria = new JTextField();
+		txtNombreCategoria.addFocusListener(new FocusAdapter() {
+			public void focusGained(FocusEvent arg0) {
+				txtNombreCategoria.setText("");
+			}
+			public void focusLost(FocusEvent e) {
+				if(txtNombreCategoria.getText().equals("")) {
+					txtNombreCategoria.setText("Categoria");
+				}
+			}
+		});
 		txtNombreCategoria.setFont(new Font("Verdana", Font.PLAIN, 24));
 		txtNombreCategoria.setText("Categoria");
 		txtNombreCategoria.setBounds(24, 57, 257, 49);
@@ -134,19 +161,26 @@ public class Pantalla_1_2 extends JDialog{
 		btnCancelar.addActionListener(new Escuchador_Cancelar() {
 				
 		});
-		btnCancelar.setIcon(new ImageIcon("C:\\Users\\DAW1\\Desktop\\Jhota\\Clases\\Proyectito\\Imagenes\\eliminar\\mipmap-xhdpi\\ic_launcher.png"));
+		btnCancelar.setIcon(new ImageIcon("src//Media//Eliminar.png"));
 		btnCancelar.setFont(new Font("Verdana", Font.PLAIN, 24));
-		btnCancelar.setBounds(172, 374, 73, 73);
+		btnCancelar.setBounds(126, 374, 73, 73);
 		frame.getContentPane().add(btnCancelar);
 		
 		
 		
 		
 		JButton btnAtrassssssssssss = new JButton("");
+		btnAtrassssssssssss.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				comboBox.setVisible(true);
+				txtNombreCategoria.setVisible(false);
+			}
+		});
 		btnAtrassssssssssss.setToolTipText("Retroceder");
-		btnAtrassssssssssss.setIcon(new ImageIcon("C:\\Users\\DAW1\\Desktop\\Jhota\\Clases\\Proyectito\\Imagenes\\atras\\atras\\mipmap-xhdpi\\ic_launcher.png"));
+		btnAtrassssssssssss.setIcon(new ImageIcon("src//Media//Atras.png"));
 		btnAtrassssssssssss.setFont(new Font("Verdana", Font.PLAIN, 24));
-		btnAtrassssssssssss.setBounds(308, 374, 73, 73);
+		btnAtrassssssssssss.setBounds(226, 374, 73, 73);
 		frame.getContentPane().add(btnAtrassssssssssss);
 		
 		
@@ -157,16 +191,16 @@ public class Pantalla_1_2 extends JDialog{
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Categoria"}));
 		comboBox.setBounds(24, 62, 299, 38);
 		frame.getContentPane().add(comboBox);
+		comboBox.addItem("Añadir...");
 		for(int i = 0; i < ListaCat.size(); i ++) {
 			comboBox.addItem(ListaCat.get(i));
 		}
-		comboBox.addItem("Añadir...");
 		comboBox.addActionListener(new Escuchador());
 		
 		
 		
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(new CompoundBorder());
 		scrollPane.setBounds(454, 11, 484, 458);
 		frame.getContentPane().add(scrollPane);
@@ -174,15 +208,21 @@ public class Pantalla_1_2 extends JDialog{
 		table = new JTable();
 		
 		table.addMouseListener(new MouseAdapter() {
-			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				seleccion = table.rowAtPoint(e.getPoint());
-				Productos p = new Productos(0, null, 0, 0);
-				nomb = String.valueOf(table.getValueAt(seleccion, 1));
+
+				if(TablaDatos == null) {
+					JOptionPane.showMessageDialog(null, "Elige Categoria");
+				}else {
+					seleccion = table.rowAtPoint(e.getPoint());
+					nomb = String.valueOf(table.getValueAt(seleccion, 1));
+					Productos p = new Productos(0, null, 0, 0);
+					p = TablaDatos.getRow(seleccion);  					
+					controlador_12.AbrirPantallaEdicion(p);				
+				}
 				
-				p = TablaDatos.getRow(seleccion);  					
-				controlador_12.AbrirPantallaEdicion(p);
+				
+				
 			}
 		});
 		table.setFont(new Font("Verdana", Font.PLAIN, 20));
@@ -200,10 +240,21 @@ public class Pantalla_1_2 extends JDialog{
 			}
 		));
 		scrollPane.setViewportView(table);
+		
+		JButton btnNewMesa = new JButton("");
+		btnNewMesa.setToolTipText("Nueva Mesa");
+		btnNewMesa.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				controlador_12.AnadirMesa();
+				JOptionPane.showMessageDialog(null, "Mesa añadida");
+			}
+		});
+		btnNewMesa.setIcon(new ImageIcon("src//Media//Anadir.png"));
+		btnNewMesa.setBounds(327, 374, 73, 73);
+		frame.getContentPane().add(btnNewMesa);
+		
 
-		
-		
-		
 		frame.setVisible(true);
 	}
 	
@@ -211,6 +262,7 @@ public class Pantalla_1_2 extends JDialog{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==comboBox) {
 				if(!comboBox.getSelectedItem().toString().equals("Añadir...")) {
+					
 					TablaDatos = new TMProductos(controlador_12.ActualizarTablaProductos((String)comboBox.getSelectedItem()));
 					table.setModel(TablaDatos);	
 				}else if(comboBox.getSelectedItem().toString().equals("Añadir...")) {
@@ -229,12 +281,49 @@ public class Pantalla_1_2 extends JDialog{
 			String newCat = String.valueOf(txtNombreCategoria.getText());
 			String cat = String.valueOf(comboBox.getSelectedItem());
 			String newNomb = txtNombre.getText();
-			double newPre = Double.parseDouble(txtPrecio.getText());
+			double newPre = 0;
+			
+			char[] aux = new char[1];
+			int aux_coma = 0;
+			
+			for(int i = 0; i < String.valueOf(txtPrecio.getText()).length(); i++) {
+				aux[0] = String.valueOf(txtPrecio.getText()).charAt(i);
+				
+				if(aux[0] == 46 || aux[0] == 44) {
+					aux_coma ++;
+				}
+			}
+			
+			for(int i = 0; i < String.valueOf(txtPrecio.getText()).length(); i++) {
+				aux[0] = String.valueOf(txtPrecio.getText()).charAt(i);
+				
+				if(aux[0] < 48 || aux[0] > 57 || aux_coma > 1 && aux[0] != 46 && aux[0] != 44) {
+					if(aux[0] != 46 && aux[0] != 44) {
+						JOptionPane.showMessageDialog(null, "Introduce un número");
+						break;
+					}
+
+				}else {
+					
+					newPre = Double.parseDouble(String.valueOf(txtPrecio.getText()).replace(',', '.'));
+					
+				}
+			}
+
 			
 			if(!cat.equals("Añadir...") && !newNomb.equals(null) && newPre != 0) {
 				controlador_12.AnadirTablaProductos(cat, newNomb, newPre);
-				frame.repaint();
-				table.repaint();
+				TablaDatos = new TMProductos(controlador_12.ActualizarTablaProductos((String)comboBox.getSelectedItem()));
+				table.setModel(TablaDatos);
+				
+			}else if(cat.equals("Añadir...")) {
+				
+				controlador_12.AnadirNuevaCat(newCat, newNomb, newPre);
+				TablaDatos = new TMProductos(controlador_12.ActualizarTablaProductos((String)comboBox.getSelectedItem()));
+				table.setModel(TablaDatos);
+				txtNombreCategoria.setVisible(false);
+				comboBox.setVisible(true);
+				comboBox.addItem(newCat);
 				
 			}
 			
@@ -246,7 +335,16 @@ public class Pantalla_1_2 extends JDialog{
 
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
-			controlador_12.DeleteTablaProductos(nomb);
+			if(table.getSelectedRowCount() >= 1) {
+				controlador_12.DeleteTablaProductos(nomb);
+				TablaDatos = new TMProductos(controlador_12.ActualizarTablaProductos((String)comboBox.getSelectedItem()));
+				table.setModel(TablaDatos);	
+			}else{
+				controlador_12.DeleteCat(comboBox.getSelectedItem().toString());
+				TablaDatos = new TMProductos(controlador_12.ActualizarTablaProductos((String)comboBox.getSelectedItem()));
+				table.setModel(TablaDatos);	
+			}
+
 			
 		}
 		
@@ -259,9 +357,5 @@ public class Pantalla_1_2 extends JDialog{
 	public void setVisible(boolean visible) {
 		frame.setVisible(visible);
 	}
-	
-	
-	
 }
 
-//INSERT INTO CATEGORIA (Cod_Categoria, Nombre_Categoria) VALUES ((SELECT MAX(Cod_Categoria)+1 FROM Categoria), 'Snacks');
